@@ -1,5 +1,4 @@
 import React from "react";
-import { playAudio } from "../util";
 
 const LibrarySong = ({
   name,
@@ -11,12 +10,9 @@ const LibrarySong = ({
   audioRef,
   isPlaying,
   setSongs,
-  active,
 }) => {
   const songSelectHandler = () => {
     const selectedSong = songs.filter((state) => state.id === id);
-    setCurrentSong({ ...selectedSong[0] });
-
     const newSongs = songs.map((song) => {
       if (song.id === id) {
         return {
@@ -32,12 +28,20 @@ const LibrarySong = ({
     });
     setSongs(newSongs);
 
-    playAudio(isPlaying, audioRef);
+    setCurrentSong({ ...selectedSong[0] });
+    if (isPlaying) {
+      const playPromise = audioRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.then((audio) => {
+          audioRef.current.play();
+        });
+      }
+    }
   };
   return (
     <div
       onClick={songSelectHandler}
-      className={`library-song ${active ? "selected" : ""}`}
+      className={`library-song ${songs.active ? "selected" : ""}`}
     >
       <img src={cover} alt="" />
       <div className="song-description">
