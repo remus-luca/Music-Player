@@ -16,10 +16,11 @@ const Player = ({
   setSongInfo,
   songs,
   setCurrentSong,
+  setSongs,
 }) => {
   useEffect(() => {
     const newSongs = songs.map((song) => {
-      if (song.id === id) {
+      if (song.id === currentSong.id) {
         return {
           ...song,
           active: true,
@@ -32,7 +33,7 @@ const Player = ({
       }
     });
     setSongs(newSongs);
-  });
+  }, [currentSong]);
   const playSongHandler = () => {
     if (isPlaying) {
       audioRef.current.pause();
