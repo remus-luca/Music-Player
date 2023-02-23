@@ -14,6 +14,8 @@ const LibrarySong = ({
 }) => {
   const songSelectHandler = () => {
     const selectedSong = songs.filter((state) => state.id === id);
+    setCurrentSong({ ...selectedSong[0] });
+    //Set Active in library
     const newSongs = songs.map((song) => {
       if (song.id === id) {
         return {
@@ -27,10 +29,13 @@ const LibrarySong = ({
         };
       }
     });
-
     setSongs(newSongs);
+
+    //Play audio
     playAudio(isPlaying, audioRef);
-    setCurrentSong({ ...selectedSong[0] });
+
+    //AICI
+    // setCurrentSong({ ...selectedSong[0] });
   };
   return (
     <div
