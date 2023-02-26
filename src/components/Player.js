@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { playAudio } from "../util";
 import {
   faPlay,
   faAngleLeft,
   faAngleRight,
   faPause,
+  faVolumeDown,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Player = ({
@@ -64,7 +66,7 @@ const Player = ({
       if ((currentIndex - 1) % songs.length === -1) {
         await setCurrentSong(songs[songs.length - 1]);
         activeLibraryHandler(songs[songs.length - 1]);
-        if (isPlaying) audioRef.current.play();
+        playAudio(isPlaying, audioRef);
         return;
       }
       await setCurrentSong(songs[(currentIndex - 1) % songs.length]);
@@ -93,9 +95,6 @@ const Player = ({
             max={songInfo.duration || 0}
             value={songInfo.currentTime}
             type="range"
-            style={{
-              background: `linear-gradient(to right,${currentSong.color[0]},${currentSong.color[1]} )`,
-            }}
           />
           <div style={trackAnim} className="animate-track"></div>
         </div>
